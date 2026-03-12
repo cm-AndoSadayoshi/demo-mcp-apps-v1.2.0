@@ -115,6 +115,26 @@ export async function readServerResource(uri: string) {
   return singletonApp.readServerResource({ uri });
 }
 
+export async function requestFileDownload(options: {
+  filename: string;
+  content: string;
+  mimeType: string;
+}) {
+  if (!singletonApp) throw new Error("Not connected to MCP host");
+  return singletonApp.downloadFile({
+    contents: [
+      {
+        type: "resource" as const,
+        resource: {
+          uri: `file:///${options.filename}`,
+          text: options.content,
+          mimeType: options.mimeType,
+        },
+      },
+    ],
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Hook
 // ---------------------------------------------------------------------------

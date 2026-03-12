@@ -5,6 +5,7 @@ import {
   useMcpApp,
   listServerResources,
   readServerResource,
+  requestFileDownload,
 } from "./hooks/use-mcp-app";
 
 interface ResourceInfo {
@@ -80,15 +81,11 @@ export default function ResourceBrowser() {
     const ext = content.mimeType === "application/json" ? ".json" : ".md";
     const filename = (resource?.name ?? "resource").replace(/\s+/g, "-") + ext;
     try {
-      const blob = new Blob([content.text], {
-        type: content.mimeType ?? "text/plain",
+      await requestFileDownload({
+        filename,
+        content: content.text,
+        mimeType: content.mimeType ?? "text/plain",
       });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
       setStatus(`${filename} をダウンロードしました`);
     } catch (err) {
       console.error("Download failed:", err);
