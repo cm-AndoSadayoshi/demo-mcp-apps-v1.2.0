@@ -3,4 +3,4 @@ import { configureServer } from "@/lib/mcp-server";
 
 const handler = createMcpHandler(configureServer);
 
-export { handler as GET, handler as POST, handler as DELETE };
+export { handler as GET, handler as POST };
