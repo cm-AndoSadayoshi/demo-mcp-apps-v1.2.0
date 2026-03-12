@@ -129,7 +129,7 @@ export default function ResourceBrowser() {
   const selectedResource = resources.find((r) => r.uri === selectedUri);
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
+    <div className="flex flex-col bg-background text-foreground" style={{ minHeight: 1200 }}>
       {/* Status bar */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-xs text-gray-500">
         <div className="flex items-center gap-2">
