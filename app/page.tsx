@@ -42,7 +42,7 @@ export default function Home() {
               fontSize: 14,
             }}
           >
-            {`https://<このサイトのドメイン>/mcp`}
+            {`https://<このサイトのドメイン>/api/mcp`}
           </code>
         </li>
         <li style={{ marginBottom: 8 }}>
