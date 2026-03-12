@@ -4,6 +4,7 @@ import {
   registerAppResource,
   RESOURCE_MIME_TYPE,
 } from "@modelcontextprotocol/ext-apps/server";
+import { z } from "zod";
 import { UI_HTML } from "./ui-html";
 
 const sampleResources = [
@@ -76,7 +77,42 @@ export function configureServer(server: McpServer) {
     })
   );
 
-  // UI対応ツールを登録
+  // 標準MCPツール（Claude.ai等の標準MCP統合で認識される）
+  server.tool(
+    "list-resources",
+    "サーバーで利用可能なリソースの一覧を表示します",
+    async () => ({
+      content: [
+        {
+          type: "text" as const,
+          text: sampleResources
+            .map((r) => `- ${r.name} (${r.uri}): ${r.description}`)
+            .join("\n"),
+        },
+      ],
+    })
+  );
+
+  server.tool(
+    "read-resource",
+    "指定したURIのリソース内容を読み取ります",
+    { uri: z.string().describe("リソースのURI（例: data://docs/getting-started）") },
+    async ({ uri }) => {
+      const res = sampleResources.find((r) => r.uri === uri);
+      if (!res) {
+        return {
+          content: [
+            { type: "text" as const, text: `リソースが見つかりません: ${uri}` },
+          ],
+        };
+      }
+      return {
+        content: [{ type: "text" as const, text: res.content }],
+      };
+    }
+  );
+
+  // UI対応ツール（MCP Apps拡張）を登録
   registerAppTool(
     server,
     "browse-resources",
