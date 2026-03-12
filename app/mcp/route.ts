@@ -120,7 +120,7 @@ const handler = createMcpHandler(async (server) => {
         openWorldHint: false,
       },
       _meta: {
-        ui: { resourceUri: RESOURCE_URI },
+        ui: { resourceUri: RESOURCE_URI, preferredHeight: 1200 },
       },
     },
     async () => {
